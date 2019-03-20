@@ -6,6 +6,14 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+class User(Base):
+    __tablename__ = 'user'
+
+    id = Column(Integer, primary_key = True)
+    name = Column(String(80), nullable  = False)
+    email = Column(String(80), nullable = False)
+    picture = Column(String(250))
+
 
 class Restaurant(Base):
     __tablename__ = 'restaurant'
@@ -13,7 +21,7 @@ class Restaurant(Base):
     id = Column(Integer, primary_key = True)
     name = Column(String(250), nullable = False)
     user_id = Column(Integer,ForeignKey('user.id'))
-    user = relationship(Users)
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -35,7 +43,7 @@ class MenuItem(Base):
     restaurant_id = Column(Integer,ForeignKey('restaurant.id'))
     restaurant = relationship(Restaurant)
     user_id = Column(Integer,ForeignKey('user.id'))
-    user = relationship(Users)
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -47,15 +55,6 @@ class MenuItem(Base):
             'price'         : self.price,
             'course'         : self.course,
         }
-
-
-class Users(Base):
-    __tablename__ = 'users'
-
-    id = Column(Integer, primary_key = True)
-    name = Column(String(80), nullable  = False)
-    email = Column(String(80), nullable = False)
-    picture = Column(String(250))
 
 
 engine = create_engine('sqlite:///restaurantmenuwithusers.db')
