@@ -58,7 +58,7 @@ class Users(Base):
     picture = Column(String(250))
 
 
-engine = create_engine('sqlite:///restaurantmenu.db')
+engine = create_engine('sqlite:///restaurantmenuwithusers.db')
 
 
 Base.metadata.create_all(engine)
